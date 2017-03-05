@@ -27,4 +27,14 @@ final class MaskException extends \Exception
     {
         return new self(sprintf('The flag %032b is absent in mask %032b', $flag, $mask->get()));
     }
+
+    /**
+     * @param Mask $mask
+     *
+     * @return self
+     */
+    public static function whenFlagIsNegative(Mask $mask): self
+    {
+        return new self(sprintf('The mask %032b must be a positive integer', $mask->get()));
+    }
 }
