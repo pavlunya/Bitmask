@@ -37,7 +37,7 @@ class MaskExceptionTest extends TestCase
     {
         $message = MaskException::whenFlagIsPresentInMask($this->mask, Mask::FLAG_13)->getMessage();
 
-        $this->assertContains(sprintf('%032b', $this->mask->get()), $message);
+        $this->assertContains(sprintf('%032b', $this->mask->getAll()), $message);
         $this->assertContains(sprintf('%032b', Mask::FLAG_13), $message);
     }
 
@@ -45,7 +45,7 @@ class MaskExceptionTest extends TestCase
     {
         $message = MaskException::whenFlagIsAbsentInMask($this->mask, Mask::FLAG_7)->getMessage();
 
-        $this->assertContains(sprintf('%032b', $this->mask->get()), $message);
+        $this->assertContains(sprintf('%032b', $this->mask->getAll()), $message);
         $this->assertContains(sprintf('%032b', Mask::FLAG_7), $message);
     }
 }

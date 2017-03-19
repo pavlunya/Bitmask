@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace Abibidu\Bit;
 
-use Iterator;
+use ArrayIterator;
+use IteratorAggregate;
 
-class Mask implements Iterator
+class Mask implements IteratorAggregate
 {
     const EMPTY_MASK = 0;
 
@@ -43,16 +44,6 @@ class Mask implements Iterator
     const FLAG_32 = 0b10000000000000000000000000000000; // 2147483648
 
     /**
-     * @var int[]
-     */
-    protected $flags = [];
-
-    /**
-     * @var int
-     */
-    protected $iteratorPosition = 0;
-
-    /**
      * @var int
      */
     protected $mask = self::EMPTY_MASK;
@@ -70,6 +61,44 @@ class Mask implements Iterator
     {
         $this->set($mask);
         $this->strictMode = $strictMode;
+    }
+
+    /**
+     * @param int $mask
+     *
+     * @throws MaskException
+     */
+    public function set(int $mask)
+    {
+        if ($mask < 0) {
+            throw MaskException::whenMaskIsNegative($this);
+        }
+
+        $this->mask = $mask;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getAll(): array
+    {
+        $flags = [];
+
+        for ($i = 1; $i <= 32; $i++) {
+            if ($this->has($flag = (int) pow(2, $i - 1))) {
+                $flags[] = $flag;
+            }
+        }
+
+        return $flags;
+    }
+
+    /**
+     * @return int
+     */
+    public function get(): int
+    {
+        return $this->mask;
     }
 
     /**
@@ -143,94 +172,6 @@ class Mask implements Iterator
     }
 
     /**
-     * @return int
-     */
-    public function get(): int
-    {
-        return $this->mask;
-    }
-
-    /**
-     * @return int[]
-     */
-    public function getFlags(): array
-    {
-        return $this->flags;
-    }
-
-    /**
-     * @param int $mask
-     *
-     * @throws MaskException
-     */
-    public function set(int $mask)
-    {
-        if ($mask < 0) {
-            throw MaskException::whenFlagIsNegative($this);
-        }
-
-        $this->mask = $mask;
-        $this->flags = $this->extractFlags();
-        $this->rewind();
-    }
-
-    /**
-     * Return the current element
-     *
-     * @link  http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
-     */
-    public function current()
-    {
-        return isset($this->flags[$this->iteratorPosition]) ? $this->flags[$this->iteratorPosition] : null;
-    }
-
-    /**
-     * Move forward to next element
-     *
-     * @link  http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
-     */
-    public function next()
-    {
-        ++$this->iteratorPosition;
-    }
-
-    /**
-     * Return the key of the current element
-     *
-     * @link  http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
-     */
-    public function key()
-    {
-        return $this->iteratorPosition;
-    }
-
-    /**
-     * Checks if current position is valid
-     *
-     * @link  http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     *        Returns true on success or false on failure.
-     */
-    public function valid()
-    {
-        return isset($this->flags[$this->iteratorPosition]);
-    }
-
-    /**
-     * Rewind the Iterator to the first element
-     *
-     * @link  http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
-     */
-    public function rewind()
-    {
-        $this->iteratorPosition = 0;
-    }
-
-    /**
      * @return string
      */
     public function __toString(): string
@@ -239,19 +180,10 @@ class Mask implements Iterator
     }
 
     /**
-     * @return int[]
+     * @return ArrayIterator
      */
-    protected function extractFlags(): array
+    public function getIterator(): ArrayIterator
     {
-        $flags = [];
-        for ($i = 1; $i <= 32; ++$i) {
-            $flag = (int) pow(2, $i);
-
-            if ($this->has($flag)) {
-                $flags[] = $flag;
-            }
-        }
-
-        return $flags;
+        return new ArrayIterator($this->getAll());
     }
 }

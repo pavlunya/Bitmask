@@ -164,7 +164,7 @@ class MaskTest extends TestCase
                 Mask::FLAG_9,
                 Mask::FLAG_21,
             ],
-            $mask->getFlags()
+            $mask->getAll()
         );
     }
 
@@ -180,7 +180,7 @@ class MaskTest extends TestCase
                 Mask::FLAG_19,
                 Mask::FLAG_21,
             ],
-            $mask->getFlags()
+            $mask->getAll()
         );
     }
 
@@ -194,55 +194,18 @@ class MaskTest extends TestCase
             [
                 Mask::FLAG_9,
             ],
-            $mask->getFlags()
+            $mask->getAll()
         );
     }
 
-    public function testIterator()
+    public function testMaskIteration()
     {
-        $mask = new Mask(Mask::FLAG_9 | Mask::FLAG_21);
+        $mask = new Mask(Mask::FLAG_7 | Mask::FLAG_13 | Mask::FLAG_17);
 
-        $output = [];
+        $this->assertInstanceOf(\Traversable::class, $mask);
+
         foreach ($mask as $flag) {
-            $output[] = $flag;
+            $this->assertTrue($flag === Mask::FLAG_7 || $flag === Mask::FLAG_13 || $flag === Mask::FLAG_17);
         }
-
-        $this->assertSame(
-            [
-                Mask::FLAG_9,
-                Mask::FLAG_21
-            ],
-            $output
-        );
-    }
-
-    public function testIteratorCurrent()
-    {
-        $mask = new Mask(Mask::FLAG_9 | Mask::FLAG_21);
-
-        $this->assertSame(Mask::FLAG_9, $mask->current());
-        $this->assertSame(0, $mask->key());
-    }
-
-    public function testIteratorNext()
-    {
-        $mask = new Mask(Mask::FLAG_9 | Mask::FLAG_21);
-
-        $mask->next();
-        $this->assertSame(Mask::FLAG_21, $mask->current());
-        $this->assertSame(1, $mask->key());
-
-        $mask->next();
-        $this->assertNull($mask->current());
-        $this->assertSame(2, $mask->key());
-    }
-
-    public function testIteratorResetNext()
-    {
-        $mask = new Mask(Mask::FLAG_9 | Mask::FLAG_21);
-
-        $mask->next();
-        $mask->rewind();
-        $this->assertSame(Mask::FLAG_9, $mask->current());
     }
 }

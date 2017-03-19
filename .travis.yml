@@ -6,7 +6,7 @@ php:
   - nightly
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source --dev
+  - travis_retry composer install --no-interaction --dev --no-suggest
 
 script:
   - vendor/bin/phpunit
