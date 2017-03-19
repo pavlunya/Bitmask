@@ -1,10 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Abibidu\Bit;
 
-class MaskExceptionTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class MaskExceptionTest extends TestCase
 {
     /**
      * @var Mask

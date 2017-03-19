@@ -1,10 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Abibidu\Bit;
 
-class MaskTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class MaskTest extends TestCase
 {
     const TEST_MASK = 42;
 

@@ -3,20 +3,20 @@
     "type": "library",
     "description": "Bitmask class helps you to use all might of bit masks and don't care about what bitwise operations are. It represents a high-level abstraction that looks like simple and manageable object and behaves like collection.",
     "keywords": ["bitwise", "bitmask"],
-    "homepage": "https://github.com/pavlunya/Bitmask",
+    "homepage": "https://github.com/pavlunya/bitmask",
     "license": "MIT",
     "authors": [
         {
             "name": "Pavel Romanenko",
             "email": "me@pavlunya.com",
-            "homepage": "http://pavlunya.com"
+            "homepage": "https://pavlunya.com"
         }
     ],
     "require": {
         "php": ">=7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.5"
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
         "psr-4": {
