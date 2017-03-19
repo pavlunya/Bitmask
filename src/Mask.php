@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Abibidu\Bit;
 
 use Iterator;
-use JsonSerializable;
 
-class Mask implements JsonSerializable, Iterator
+class Mask implements Iterator
 {
     const EMPTY_MASK = 0;
 
@@ -72,17 +71,6 @@ class Mask implements JsonSerializable, Iterator
     {
         $this->set($mask);
         $this->strictMode = $strictMode;
-    }
-
-    /**
-     * @param string $mask
-     * @param bool   $strictMode
-     *
-     * @return static
-     */
-    public static function fromString(string $mask, bool $strictMode = true)
-    {
-        return new static((int) $mask, $strictMode);
     }
 
     /**
@@ -249,14 +237,6 @@ class Mask implements JsonSerializable, Iterator
     public function __toString(): string
     {
         return (string) $this->mask;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function jsonSerialize(): int
-    {
-        return $this->mask;
     }
 
     /**

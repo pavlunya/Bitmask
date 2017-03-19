@@ -32,20 +32,6 @@ class MaskTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame(self::TEST_MASK, $mask->__toString());
     }
 
-    public function testNamedConstructorForString()
-    {
-        $mask = Mask::fromString((string) self::TEST_MASK);
-
-        $this->assertSame(self::TEST_MASK, $mask->get());
-    }
-
-    public function testToJsonBehaviour()
-    {
-        $mask = new Mask(self::TEST_MASK);
-
-        $this->assertSame(json_encode(['mask' => self::TEST_MASK]), json_encode(['mask' => $mask]));
-    }
-
     public function testIfHasFlag()
     {
         $mask = new Mask(Mask::EMPTY_MASK | Mask::FLAG_13);
